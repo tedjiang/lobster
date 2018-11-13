@@ -2,7 +2,9 @@
 title: "lobster"
 author: "Yingfei Jiang"
 date: "11/12/2018"
-output: html_document
+output:
+  html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -66,8 +68,8 @@ trend <- full_join(lob_a_trend, lob_t_trend)
 
 trend_plot <- ggplot(trend) +
   geom_line(aes(x = YEAR, y = lob_counts, color = "Lobster Counts")) +
-  geom_line(aes(x = YEAR - 0.5, y = trap_counts/2, color = "Trap Counts")) +
-  scale_y_continuous(sec.axis = sec_axis(~./0.5, name = "Trap Counts")) +
+  geom_line(aes(x = YEAR - 0.5, y = trap_counts, color = "Trap Counts")) +
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Trap Counts")) +
   facet_wrap(~SITE, scale = "free") +
   theme_pubr() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
