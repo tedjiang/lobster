@@ -138,6 +138,15 @@ $(document).ready(function () {
 <pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(vcdExtra)</code></pre>
+<pre><code>## Loading required package: vcd</code></pre>
+<pre><code>## Loading required package: grid</code></pre>
+<pre><code>## Loading required package: gnm</code></pre>
+<pre><code>## 
+## Attaching package: 'vcdExtra'</code></pre>
+<pre><code>## The following object is masked from 'package:dplyr':
+## 
+##     summarise</code></pre>
 <pre class="r"><code>lob_a_draft &lt;- read_csv(&quot;lobster_size_abundance.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -164,6 +173,20 @@ $(document).ready(function () {
 ##   OBSERVER = col_integer(),
 ##   NOTES = col_character()
 ## )</code></pre>
+<pre class="r"><code>lob_a_draft &lt;- as.data.frame(lob_a_draft) #coerce to data.frame
+lob_a &lt;- expand.dft(lob_a_draft, freq = &quot;COUNT&quot;) #get the data into case format
+
+
+lob_t &lt;- lob_t_draft %&gt;% 
+  mutate(
+    lob_year = case_when(
+      FISHING_SEASON == &quot;2012-2013&quot; ~ &quot;2012&quot;,
+      FISHING_SEASON == &quot;2013-2014&quot; ~ &quot;2013&quot;,
+      FISHING_SEASON == &quot;2014-2015&quot; ~ &quot;2014&quot;,
+      FISHING_SEASON == &quot;2015-2016&quot; ~ &quot;2015&quot;,
+      FISHING_SEASON == &quot;2016-2017&quot; ~ &quot;2016&quot;
+    )
+  )</code></pre>
 
 
 
