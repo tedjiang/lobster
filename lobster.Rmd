@@ -1,0 +1,20 @@
+---
+title: "lobster"
+author: "Yingfei Jiang"
+date: "11/12/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+library(tidyverse)
+
+lob_a_draft <- read_csv("lobster_size_abundance.csv")
+lob_t_draft <- read_csv("lobster_traps.csv")
+
+```
+
