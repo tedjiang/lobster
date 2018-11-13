@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(vcdExtra)
+library(ggpubr)
 
 lob_a_draft <- read_csv("lobster_size_abundance.csv")
 lob_t_draft <- read_csv("lobster_traps.csv")
@@ -62,11 +63,17 @@ lob_t_trend <- lob_t %>%
 
 trend <- full_join(lob_a_trend, lob_t_trend)
 
-trend_plot <- ggplot(trend, aes(x = YEAR))+
-  geom_line(aes(y = lob_counts, color = "Lobster Counts")) +
-  geom_line(aes(y = trap_counts * 30, color = "Trap Counts")) +
+trend_plot <- ggplot(trend) +
+  geom_line(aes(x = YEAR, y = lob_counts, color = "Lobster Counts")) +
+  geom_line(aes(x = YEAR - 0.5, y = trap_counts * 30, color = "Trap Counts")) +
   scale_y_continuous(sec.axis = sec_axis(~./30, name = "Trap Counts")) +
-  facet_wrap(~SITE, scale = "free")
+  facet_wrap(~SITE, scale = "free") +
+  theme_pubr() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Year",
+       y = "Lobster Counts",
+       colour = "Counts")
+  
 
 trend_plot
 
