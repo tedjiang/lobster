@@ -72,13 +72,49 @@ trend_plot <- ggplot(trend) +
   scale_y_continuous(sec.axis = sec_axis(~., name = "Trap Counts")) +
   facet_wrap(~SITE, scale = "free") +
   theme_pubr() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 10)) +
   labs(x = "Year",
        y = "Lobster Counts",
        colour = "Counts")
   
 
 trend_plot
+
+```
+
+```{r}
+
+#Visualization for lobster size at five sites
+
+lob_a_2017 <- lob_a %>%
+  filter(YEAR == 2017) %>% 
+  group_by(SITE)
+
+lob_a_2017_box <- ggplot(lob_a_2017, aes(SITE, SIZE)) +
+  geom_boxplot(width = 0.6) +
+  theme_pubr() +
+  labs(x = "Site",
+       y = "Carapace Length (mm)")
+
+lob_a_2017_box
+
+sum_2017 <- lob_a_2017 %>% 
+  summarize(
+    lob_mean = round(mean(SIZE), 2),
+    lob_sd = round(sd(SIZE), 2),
+    lob_count = length(SIZE)
+    )
+
+lob_a_2017_column <- ggplot(sum_2017, aes(x = SITE, y = lob_mean)) +
+  geom_col(color = "black", fill = "gray", width = 0.7) +
+  geom_errorbar(aes(ymin = lob_mean - lob_sd, ymax = lob_mean + lob_sd), width = 0.3) +
+  theme_pubr() +
+  labs(x = "Site",
+       y = "Carapace Length (mm)") +
+  expand_limits(y = c(0, 120)) +
+  scale_y_continuous(expand = c(0, 0))
+
+lob_a_2017_column
 
 ```
 
