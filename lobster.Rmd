@@ -16,6 +16,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(vcdExtra)
 library(ggpubr)
+library(car)
+library(onewaytests)
 
 lob_a_draft <- read_csv("lobster_size_abundance.csv")
 lob_t_draft <- read_csv("lobster_traps.csv")
@@ -87,11 +89,11 @@ trend_plot
 #Visualization for lobster size at five sites
 
 lob_a_2017 <- lob_a %>%
-  filter(YEAR == 2017) %>% 
-  group_by(SITE)
+  filter(YEAR == 2017)
 
 lob_a_2017_box <- ggplot(lob_a_2017, aes(SITE, SIZE)) +
   geom_boxplot(width = 0.6) +
+  geom_jitter(width = 0.15, alpha = 0.5, aes(color = SITE)) +
   theme_pubr() +
   labs(x = "Site",
        y = "Carapace Length (mm)")
@@ -99,10 +101,12 @@ lob_a_2017_box <- ggplot(lob_a_2017, aes(SITE, SIZE)) +
 lob_a_2017_box
 
 sum_2017 <- lob_a_2017 %>% 
+  group_by(SITE) %>% 
   summarize(
     lob_mean = round(mean(SIZE), 2),
     lob_sd = round(sd(SIZE), 2),
-    lob_count = length(SIZE)
+    lob_count = length(SIZE),
+    lob_var = round(var(SIZE), 2)
     )
 
 lob_a_2017_column <- ggplot(sum_2017, aes(x = SITE, y = lob_mean)) +
@@ -115,6 +119,43 @@ lob_a_2017_column <- ggplot(sum_2017, aes(x = SITE, y = lob_mean)) +
   scale_y_continuous(expand = c(0, 0))
 
 lob_a_2017_column
+
+```
+
+```{r}
+
+#Data exploration
+
+histos <- ggplot(lob_a_2017, aes(SIZE)) +
+  geom_histogram(bins = 20) +
+  facet_wrap(~SITE, scale = "free")
+
+histos
+
+qqs <- ggplot(lob_a_2017, aes(sample = SIZE)) +
+  geom_qq() +
+  facet_wrap(~SITE, scale = "free")
+
+qqs
+
+#Normal distribution
+
+```
+
+
+```{r}
+
+#Something is wrong here
+#One-way ANOVA test
+
+lob_2017_levene <- leveneTest(SIZE ~ SITE, data = lob_a_2017)
+
+lob_2017_levene
+#levene's test rejects equal variances
+
+lob_2017_aov <- aov.test(SIZE ~ SITE, data = lob_a_2017)
+
+lob_2017_aov
 
 ```
 
