@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, include = FALSE}
 
 library(tidyverse)
 library(vcdExtra)
@@ -24,7 +24,7 @@ lob_t_draft <- read_csv("lobster_traps.csv")
 
 ```
 
-```{r}
+```{r, include = FALSE}
 
 #Some basic data wrangling in this chunk, column lob_year is for future use when plotting trend, here i am assuming fishing season "x-x+1" is counted as year x+1. This means when we analyze trap count in the future, it is the trap count before the lobster count of the same year, which is collected in August  
 
@@ -45,7 +45,7 @@ lob_t <- lob_t_draft %>%
 
 ```
 
-```{r}
+```{r, message=FALSE, echo = FALSE, warning = FALSE}
 
 #Plotting trend in lobster count and trap count
 
@@ -84,7 +84,7 @@ trend_plot
 
 ```
 
-```{r}
+```{r, message=FALSE, echo = FALSE}
 
 #Visualization for lobster size at five sites
 
@@ -93,7 +93,7 @@ lob_a_2017 <- lob_a %>%
 
 lob_a_2017_box <- ggplot(lob_a_2017, aes(SITE, SIZE)) +
   geom_boxplot(width = 0.6) +
-  geom_jitter(width = 0.15, alpha = 0.5, aes(color = SITE)) +
+  geom_jitter(width = 0.15, alpha = 0.2, aes(color = SITE)) +
   theme_pubr() +
   labs(x = "Site",
        y = "Carapace Length (mm)")
@@ -109,6 +109,8 @@ sum_2017 <- lob_a_2017 %>%
     lob_var = round(var(SIZE), 2)
     )
 
+sum_2017
+
 lob_a_2017_column <- ggplot(sum_2017, aes(x = SITE, y = lob_mean)) +
   geom_col(color = "black", fill = "gray", width = 0.7) +
   geom_errorbar(aes(ymin = lob_mean - lob_sd, ymax = lob_mean + lob_sd), width = 0.3) +
@@ -122,7 +124,7 @@ lob_a_2017_column
 
 ```
 
-```{r}
+```{r, include = FALSE}
 
 #Data exploration
 
@@ -143,10 +145,11 @@ qqs
 ```
 
 
-```{r}
+```{r, include = FALSE}
 
-#Something is wrong here
+#Something is wrong here, or not
 #One-way ANOVA test
+#Post-hoc test
 
 lob_2017_levene <- leveneTest(SIZE ~ SITE, data = lob_a_2017)
 
@@ -156,6 +159,10 @@ lob_2017_levene
 lob_2017_aov <- aov.test(SIZE ~ SITE, data = lob_a_2017)
 
 lob_2017_aov
+
+lob_2017_ph <- paircomp(lob_2017_aov, adjust.method = "bonferroni")
+
+lob_2017_ph
 
 ```
 
