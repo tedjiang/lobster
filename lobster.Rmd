@@ -21,6 +21,8 @@ lob_t_draft <- read_csv("lobster_traps.csv")
 
 ```{r}
 
+#Some basic data wrangling in this chunk, column lob_year is for future use when plotting trend, here i am assuming fishing season "x-x+1" is counted as year x+1. This means when we analyze trap count in the future, it is the trap count before the lobster count of the same year, which is collected in August  
+
 lob_a_draft <- as.data.frame(lob_a_draft) #coerce to data.frame
 lob_a <- expand.dft(lob_a_draft, freq = "COUNT") #get the data into case format
 
@@ -28,13 +30,45 @@ lob_a <- expand.dft(lob_a_draft, freq = "COUNT") #get the data into case format
 lob_t <- lob_t_draft %>% 
   mutate(
     lob_year = case_when(
-      FISHING_SEASON == "2012-2013" ~ "2012",
-      FISHING_SEASON == "2013-2014" ~ "2013",
-      FISHING_SEASON == "2014-2015" ~ "2014",
-      FISHING_SEASON == "2015-2016" ~ "2015",
-      FISHING_SEASON == "2016-2017" ~ "2016"
+      FISHING_SEASON == "2012-2013" ~ 2013,
+      FISHING_SEASON == "2013-2014" ~ 2014,
+      FISHING_SEASON == "2014-2015" ~ 2015,
+      FISHING_SEASON == "2015-2016" ~ 2016,
+      FISHING_SEASON == "2016-2017" ~ 2017
     )
   )
+
+```
+
+```{r}
+
+#Plotting trend in lobster count and trap count
+
+lob_a_trend <- lob_a %>%
+  group_by(YEAR, SITE) %>%
+  summarize(lob_counts = length(SIZE))
+
+lob_t_trend <- lob_t %>%
+  filter (
+    SITE == "AQUE" |
+    SITE == "NAPL" |
+    SITE == "MOHK" |
+    SITE == "IVEE" |
+    SITE == "CARP"
+    ) %>% 
+  group_by(lob_year, SITE) %>% 
+  summarize(trap_counts = round(mean(TRAPS), 2)) %>% 
+  rename(YEAR = lob_year)
+
+trend <- full_join(lob_a_trend, lob_t_trend)
+
+trend_plot <- ggplot(trend, aes(x = YEAR))+
+  geom_line(aes(y = lob_counts, color = "Lobster Counts")) +
+  geom_line(aes(y = trap_counts * 30, color = "Trap Counts")) +
+  scale_y_continuous(sec.axis = sec_axis(~./30, name = "Trap Counts")) +
+  facet_wrap(~SITE, scale = "free")
+
+trend_plot
 
 ```
 
