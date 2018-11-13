@@ -58,15 +58,16 @@ lob_t_trend <- lob_t %>%
     SITE == "CARP"
     ) %>% 
   group_by(lob_year, SITE) %>% 
-  summarize(trap_counts = round(mean(TRAPS), 2)) %>% 
+  summarize(trap_counts = sum(TRAPS)) %>% 
+  #summarize(trap_counts = round(mean(TRAPS), 2)) %>% 
   rename(YEAR = lob_year)
 
 trend <- full_join(lob_a_trend, lob_t_trend)
 
 trend_plot <- ggplot(trend) +
   geom_line(aes(x = YEAR, y = lob_counts, color = "Lobster Counts")) +
-  geom_line(aes(x = YEAR - 0.5, y = trap_counts * 30, color = "Trap Counts")) +
-  scale_y_continuous(sec.axis = sec_axis(~./30, name = "Trap Counts")) +
+  geom_line(aes(x = YEAR - 0.5, y = trap_counts/2, color = "Trap Counts")) +
+  scale_y_continuous(sec.axis = sec_axis(~./0.5, name = "Trap Counts")) +
   facet_wrap(~SITE, scale = "free") +
   theme_pubr() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
