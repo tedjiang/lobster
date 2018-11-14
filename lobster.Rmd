@@ -19,6 +19,7 @@ library(ggpubr)
 library(car)
 library(onewaytests)
 library(kableExtra)
+library(effsize)
 #Loading packages
 
 lob_a_draft <- read_csv("lobster_size_abundance.csv")
@@ -90,7 +91,7 @@ trend_plot
 
 ```
 
-
+### 2. Compare Mean Lobster Size by Site in 2017
 
 ```{r, message=FALSE, echo = FALSE}
 
@@ -168,7 +169,6 @@ qqs
 
 ```
 
-### 2. Compare Mean Lobster Size by Site in 2017
 ```{r}
 
 #One-way ANOVA test
@@ -191,6 +191,25 @@ lob_2017_aov
 lob_2017_ph <- paircomp(lob_2017_aov, adjust.method = "bonferroni")
 lob_2017_ph
 #post-hoc test shows which one is different
+
+eff_NAPL_CARP <- lob_a_2017 %>% 
+  filter(SITE == "NAPL" | SITE == "CARP") %>% 
+  cohen.d(SIZE ~ SITE, data=.)
+
+eff_NAPL_CARP
+
+eff_NAPL_IVEE <- lob_a_2017 %>% 
+  filter(SITE == "NAPL" | SITE == "IVEE") %>% 
+  cohen.d(SIZE ~ SITE, data=.)
+
+eff_NAPL_IVEE
+
+eff_NAPL_MOHK <- lob_a_2017 %>% 
+  filter(SITE == "NAPL" | SITE == "MOHK") %>% 
+  cohen.d(SIZE ~ SITE, data=.)
+
+eff_NAPL_MOHK
+#All three effsize are small
 
 ```
 
