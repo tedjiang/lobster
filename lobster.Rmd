@@ -170,12 +170,15 @@ lob_2017_levene <- leveneTest(SIZE ~ SITE, data = lob_a_2017)
 
 lob_2017_levene
 #levene's test rejects equal variances
+#But we can assume equal variance with the four time standard
 
 lob_2017_aov <- aov.test(SIZE ~ SITE, data = lob_a_2017)
 lob_2017_aov
+#One-way ANOVA tells us that there's a significant differences in samples
 
 lob_2017_ph <- paircomp(lob_2017_aov, adjust.method = "bonferroni")
 lob_2017_ph
+#post-hoc test shows which one is different
 
 ```
 
