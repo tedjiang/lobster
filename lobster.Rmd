@@ -30,7 +30,9 @@ lob_t_draft <- read_csv("lobster_traps.csv")
 
 ```{r, include = FALSE}
 
-#Some basic data wrangling in this chunk, column lob_year is for future use when plotting trend, here i am assuming fishing season "x-x+1" is counted as year x+1. This means when we analyze trap count in the future, it is the trap count before the lobster count of the same year, which is collected in August  
+#Some basic data wrangling in this chunk, column lob_year is for future use when plotting trend, here i am assuming fishing season "x-x+1" is counted as year x+1. This means when we analyze trap count in the future, it is the trap count before the lobster count of the same year, which is collected in August 
+
+#Sampling area in all sites are differenct, so the differences in sample size doesnt mean anything here
 
 lob_a_draft <- as.data.frame(lob_a_draft) #coerce to data.frame
 lob_a <- expand.dft(lob_a_draft, freq = "COUNT") #get the data into case format
