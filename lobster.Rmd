@@ -18,6 +18,7 @@ library(vcdExtra)
 library(ggpubr)
 library(car)
 library(onewaytests)
+#Loading packages
 
 lob_a_draft <- read_csv("lobster_size_abundance.csv")
 lob_t_draft <- read_csv("lobster_traps.csv")
