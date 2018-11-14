@@ -94,8 +94,13 @@ trend_plot
 
 ```{r, message=FALSE, echo = FALSE}
 
+<<<<<<< HEAD
 # Visualization for lobster size at five sites, we need to decide which plot is better
 
+=======
+#Visualization for lobster size at five sites, we need to decide which plot is better
+#The second one!
+>>>>>>> 2e1a8caab0fe859273cf609b1161621aaa9e324f
 lob_a_2017 <- lob_a %>%
   filter(YEAR == 2017)
 
@@ -174,13 +179,19 @@ lob_2017_levene <- leveneTest(SIZE ~ SITE, data = lob_a_2017)
 
 lob_2017_levene
 #levene's test rejects equal variances
+<<<<<<< HEAD
 #mean within 4 x's so equal variance (Allison)
+=======
+#But we can assume equal variance with the four time standard
+>>>>>>> 2e1a8caab0fe859273cf609b1161621aaa9e324f
 
 lob_2017_aov <- aov.test(SIZE ~ SITE, data = lob_a_2017)
 lob_2017_aov
+#One-way ANOVA tells us that there's a significant differences in samples
 
 lob_2017_ph <- paircomp(lob_2017_aov, adjust.method = "bonferroni")
 lob_2017_ph
+#post-hoc test shows which one is different
 
 ```
 
