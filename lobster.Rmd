@@ -121,7 +121,8 @@ sum_2017 <- lob_a_2017 %>%
     lob_count = length(SIZE),
     lob_var = round(var(SIZE), 2)
     ) %>% 
-  mutate(lob_size = paste(as.character(lob_mean), " ± ", as.character(lob_sd)))
+  mutate(lob_size = paste(as.character(lob_mean), " ± ", as.character(lob_sd)),
+         label_text = c("a, b", "a", "a", "a", "b"))
 
 #Output table we will use in the report
 tbl_2017 <- sum_2017 %>% 
@@ -143,13 +144,14 @@ lob_a_2017_column <- ggplot(sum_2017, aes(x = SITE, y = lob_mean)) +
   labs(x = "Site",
        y = "Carapace Length (mm)") +
   expand_limits(y = c(0, 120)) +
-  scale_y_continuous(expand = c(0, 0))
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_text(data = sum_2017, aes(x = SITE, label = label_text), y = 100, size = 8)
 
 lob_a_2017_column
 
 ```
 
-```{r}
+```{r, include = FALSE}
 
 #Data exploration
 
@@ -169,7 +171,7 @@ qqs
 
 ```
 
-```{r}
+```{r, include = FALSE}
 
 #One-way ANOVA test
 #Post-hoc test
@@ -222,7 +224,9 @@ eff_NAPL_MOHK
 
 ### 4. Proportions of “legal” lobsters at the 5 sites in 2017
 
-```{r}
+```{r, include = FALSE}
+
+#Chi-square test
 
 lob_count_2017 <- lob_a_2017 %>% 
   mutate (legal = case_when(
@@ -243,4 +247,25 @@ lob_x2
 
 ```
 
+```{r, echo = FALSE}
+
+prop_tbl_df <- as.data.frame(lob_count_2017) %>% 
+  mutate (Site = c("AQUE", "CARP", "IVEE", "MOHK", "NAPL"),
+          Yes_percentage = round(Yes/(Yes + No), 2),
+          No_percentage = round(No/(Yes + No), 2),
+          MPA = c("Non-MPA", "Non-MPA", "MPA", "Non-MPA", "MPA"),
+          Legal = paste(as.character(Yes), "(", as.character(Yes_percentage), ")"),
+          Not_legal = paste(as.character(No), "(", as.character(No_percentage), ")")) %>% 
+  select(Site, MPA, Legal, Not_legal) %>% 
+  kable(col.name = c("Site", "MPA", "Legal Count", "Non-legal Count"),
+        align = "c") %>% 
+  kable_styling(bootstrap_options = c("hover", "condensed"), 
+                full_width = FALSE, 
+                position = "left") %>% 
+  column_spec(1, bold = T, background = "cornsilk") %>% 
+  row_spec(0, background = "cornsilk")
+
+prop_tbl_df
+
+```
 
