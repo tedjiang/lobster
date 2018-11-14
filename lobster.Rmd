@@ -47,9 +47,8 @@ lob_t <- lob_t_draft %>%
   )
 
 ```
-Comment about trends, events, differences
 
-
+### 1. Lobster Abundance and Fishing Pressure 2012-2017
 ```{r, message=FALSE, echo = FALSE, warning = FALSE}
 
 #Plotting trend in lobster count and trap count
@@ -91,9 +90,11 @@ trend_plot
 
 ```
 
+
+
 ```{r, message=FALSE, echo = FALSE}
 
-#Visualization for lobster size at five sites, we need to decide which plot is better
+# Visualization for lobster size at five sites, we need to decide which plot is better
 
 lob_a_2017 <- lob_a %>%
   filter(YEAR == 2017)
@@ -143,7 +144,7 @@ lob_a_2017_column
 
 ```
 
-```{r, include = FALSE}
+```{r}
 
 #Data exploration
 
@@ -163,8 +164,8 @@ qqs
 
 ```
 
-
-```{r, include = FALSE}
+### 2. Compare Mean Lobster Size by Site in 2017
+```{r}
 
 #One-way ANOVA test
 #Post-hoc test
@@ -173,12 +174,20 @@ lob_2017_levene <- leveneTest(SIZE ~ SITE, data = lob_a_2017)
 
 lob_2017_levene
 #levene's test rejects equal variances
+#mean within 4 x's so equal variance (Allison)
 
 lob_2017_aov <- aov.test(SIZE ~ SITE, data = lob_a_2017)
 lob_2017_aov
 
 lob_2017_ph <- paircomp(lob_2017_aov, adjust.method = "bonferroni")
 lob_2017_ph
+
+```
+
+### 3. Changes in Lobster Size at MPA and non-MPA Sites
+```{r, message = FALSE, echo = FALSE}
+
+
 
 ```
 
