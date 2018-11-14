@@ -220,3 +220,27 @@ eff_NAPL_MOHK
 
 ```
 
+### 4. Proportions of “legal” lobsters at the 5 sites in 2017
+
+```{r}
+
+lob_count_2017 <- lob_a_2017 %>% 
+  mutate (legal = case_when(
+    SIZE >= 82.6 ~ "Yes",
+    SIZE < 82.6 ~ "No"
+  )) %>% 
+  count(SITE, legal) %>% 
+  spread(legal, n) %>% 
+  select(-SITE)
+
+rownames(lob_count_2017) <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
+
+lob_prop_2017 <- prop.table(as.matrix(lob_count_2017), 1)
+
+lob_x2 <- chisq.test(lob_count_2017)
+
+lob_x2
+
+```
+
+
