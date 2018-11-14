@@ -18,6 +18,7 @@ library(vcdExtra)
 library(ggpubr)
 library(car)
 library(onewaytests)
+library(kableExtra)
 #Loading packages
 
 lob_a_draft <- read_csv("lobster_size_abundance.csv")
@@ -50,10 +51,12 @@ lob_t <- lob_t_draft %>%
 
 #Plotting trend in lobster count and trap count
 
+#lob_a_trend stores lobster counts based on year and site
 lob_a_trend <- lob_a %>%
   group_by(YEAR, SITE) %>%
   summarize(lob_counts = length(SIZE))
 
+#lob_t_trend stores total observed trap counts through the fishing season by year and location, this doesnt necessarily make sense since observations are made on selected days.
 lob_t_trend <- lob_t %>%
   filter (
     SITE == "AQUE" |
@@ -87,8 +90,8 @@ trend_plot
 
 ```{r, message=FALSE, echo = FALSE}
 
-#Visualization for lobster size at five sites
-
+#Visualization for lobster size at five sites, we need to decide which plot is better
+#The second one!
 lob_a_2017 <- lob_a %>%
   filter(YEAR == 2017)
 
@@ -108,9 +111,21 @@ sum_2017 <- lob_a_2017 %>%
     lob_sd = round(sd(SIZE), 2),
     lob_count = length(SIZE),
     lob_var = round(var(SIZE), 2)
-    )
+    ) %>% 
+  mutate(lob_size = paste(as.character(lob_mean), " ± ", as.character(lob_sd)))
 
-sum_2017
+#Output table we will use in the report
+tbl_2017 <- sum_2017 %>% 
+  select(SITE, lob_size, lob_count) %>% 
+  kable(col.names = c("Site  \n\n","Size  \n$(mm)$", "Sample  \nSize"), #Assigning column names
+        align = "c") %>% 
+  kable_styling(bootstrap_options = c("hover", "condensed"), 
+                full_width = FALSE, 
+                position = "left") %>% 
+  column_spec(1, bold = T, background = "cornsilk") %>% 
+  row_spec(0, background = "cornsilk")
+
+tbl_2017
 
 lob_a_2017_column <- ggplot(sum_2017, aes(x = SITE, y = lob_mean)) +
   geom_col(color = "black", fill = "gray", width = 0.7) +
@@ -148,7 +163,6 @@ qqs
 
 ```{r, include = FALSE}
 
-#Something is wrong here, or not
 #One-way ANOVA test
 #Post-hoc test
 
@@ -158,11 +172,9 @@ lob_2017_levene
 #levene's test rejects equal variances
 
 lob_2017_aov <- aov.test(SIZE ~ SITE, data = lob_a_2017)
-
 lob_2017_aov
 
 lob_2017_ph <- paircomp(lob_2017_aov, adjust.method = "bonferroni")
-
 lob_2017_ph
 
 ```
