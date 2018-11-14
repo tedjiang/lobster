@@ -26,6 +26,7 @@ lob_t_draft <- read_csv("lobster_traps.csv")
 
 ```
 
+
 ```{r, include = FALSE}
 
 #Some basic data wrangling in this chunk, column lob_year is for future use when plotting trend, here i am assuming fishing season "x-x+1" is counted as year x+1. This means when we analyze trap count in the future, it is the trap count before the lobster count of the same year, which is collected in August  
@@ -46,6 +47,8 @@ lob_t <- lob_t_draft %>%
   )
 
 ```
+Comment about trends, events, differences
+
 
 ```{r, message=FALSE, echo = FALSE, warning = FALSE}
 
