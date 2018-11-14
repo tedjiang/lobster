@@ -94,7 +94,7 @@ trend_plot
 ```{r, message=FALSE, echo = FALSE}
 
 #Visualization for lobster size at five sites, we need to decide which plot is better
-
+#The second one!
 lob_a_2017 <- lob_a %>%
   filter(YEAR == 2017)
 
