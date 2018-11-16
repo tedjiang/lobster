@@ -220,7 +220,6 @@ eff_NAPL_MOHK
 
 ### 3. Changes in Lobster Size at MPA and non-MPA Sites
 ```{r, message = FALSE, echo = FALSE}
-#MPA sites:How do lobster size compare in 2012 and 2018 at Isla Vista and Naples Reef?
 
 #1) MPA: Isla Vista
 iv <- lob_a %>% 
@@ -246,6 +245,12 @@ iv_ttest
 #p-value is more than 0.05, so we have to retain the null hypothesis
 #The lobster size of 2002 and 2018 do not vary significantly
 
+#Effect size
+iv_eff <- iv %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+iv_eff
+#The effect size is small..
 
 #2) MPA: Naples Reef
 nr <- lob_a %>% 
@@ -266,6 +271,12 @@ nr_ttest
 #p-value is more than 0.05, so we have to retain the null hypothesis
 #The lobster size of 2002 and 2018 do not vary significantly
 
+#Effect size
+nr_eff <- nr %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+nr_eff
+#The effect size is small..
 
 #3) Arroyo Quemado
 aq <- lob_a %>% 
@@ -286,6 +297,13 @@ aq_ttest
 #p-value is more than 0.05, so we have to retain the null hypothesis
 #The lobster size of 2002 and 2018 do not vary significantly
 
+#Effect size
+aq_eff <- aq %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+aq_eff
+#The effect size is small..
+
 # 4) Mohawk Reef
 mr <- lob_a %>% 
   filter(SITE == "MOHK")
@@ -305,6 +323,12 @@ mr_ttest
 #p-value is less than 0.05, so we have to reject the null hypothesis
 #The lobster size of 2002 and 2018 vary significantly
 
+#Effect size
+mr_eff <- mr %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+mr_eff
+#The effect size is medium and the absolute difference of 2012 and 2017 is 5.25
 
 #5)Carpinteria
 ca <- lob_a %>% 
@@ -325,7 +349,15 @@ ca_ttest
 #p-value is more than 0.05, so we have to retain the null hypothesis
 #The lobster size of 2002 and 2018 do not vary significantly
 
-#Effect size need
+#Effect size
+ca_eff <- ca %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+ca_eff
+#The effect size is small..
+
+
+#Based on the two-sample t-test in five sites, excpet the Mohawk Reef, there is no significant difference in lobster size in year 2012 and 2017....
 ```
 
 ### 4. Proportions of “legal” lobsters at the 5 sites in 2017
