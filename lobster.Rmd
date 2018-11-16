@@ -214,12 +214,15 @@ eff_NAPL_MOHK <- lob_a_2017 %>%
   cohen.d(SIZE ~ SITE, data=.)
 
 eff_NAPL_MOHK
+#All three effsize are small
 #All three effect sizes are small
 
 ```
 
 ### 3. Changes in Lobster Size at MPA and non-MPA Sites
 ```{r, message = FALSE, echo = FALSE}
+
+
 
 #1) MPA: Isla Vista
 iv <- lob_a %>% 
