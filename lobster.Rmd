@@ -236,14 +236,14 @@ iv_ftest
 #p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
 
 #two-sample t-test
-#Ho: The lobster size of 2002 and 2018 do not vary significantly.
-#HA: The lobster size of 2002 and 2018 vary significantly.
+#Ho: The lobster size in 2012 is no less than the size in 2018
+#HA: The lobster size in 2012 is less than the size in 2018.
 iv_ttest <- iv %>% 
   filter (YEAR == 2012 | YEAR == 2017) %>% 
-  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+  t.test(SIZE ~ YEAR, alternative = "less",var.equal = TRUE,data = .)
 iv_ttest
-#p-value is more than 0.05, so we have to retain the null hypothesis
-#The lobster size of 2002 and 2018 do not vary significantly
+#p-value is less than 0.05, so we have to reject the null hypothesis
+#The lobster size in 2012 is less than the size in 2018.
 
 #Effect size
 iv_eff <- iv %>% 
@@ -253,6 +253,9 @@ iv_eff
 #The effect size is small..
 
 #2) MPA: Naples Reef
+#F-test for equal variance
+#H0: Variance are equal (ratio of variances = 1)
+#HA: Variance are not equal(raitio is not 1)
 nr <- lob_a %>% 
   filter(SITE == "NAPL")
 nr_ftest <- nr %>% 
@@ -262,14 +265,14 @@ nr_ftest
 #p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
 
 #two-sample t-test
-#Ho: The lobster size of 2002 and 2018 do not vary significantly.
-#HA: The lobster size of 2002 and 2018 vary significantly.
+#Ho: The lobster size in 2012 is no less than the size in 2018.
+#HA: The lobster size in 2012 is less than the size in 2018.
 nr_ttest <- nr %>% 
   filter (YEAR == 2012 | YEAR == 2017) %>% 
-  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+  t.test(SIZE ~ YEAR, alternative = "less", var.equal = TRUE,data = .)
 nr_ttest
 #p-value is more than 0.05, so we have to retain the null hypothesis
-#The lobster size of 2002 and 2018 do not vary significantly
+#The lobster size in 2012 is no less than the size in 2018
 
 #Effect size
 nr_eff <- nr %>% 
@@ -278,7 +281,10 @@ nr_eff <- nr %>%
 nr_eff
 #The effect size is small..
 
-#3) Arroyo Quemado
+#3)non-MPA: Arroyo Quemado
+#F-test for equal variance
+#H0: Variance are equal (ratio of variances = 1)
+#HA: Variance are not equal(raitio is not 1)
 aq <- lob_a %>% 
   filter(SITE == "AQUE")
 aq_ftest <- aq %>% 
@@ -288,14 +294,14 @@ aq_ftest
 #p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
 
 #two-sample t-test
-#Ho: The lobster size of 2002 and 2018 do not vary significantly.
-#HA: The lobster size of 2002 and 2018 vary significantly.
+#Ho: The lobster size in 2012 is no less than the size in 2018.
+#HA: The lobster size in 2012 is less than the size in 2018.
 aq_ttest <- aq %>% 
   filter (YEAR == 2012 | YEAR == 2017) %>% 
-  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+  t.test(SIZE ~ YEAR, alternative = "less", var.equal = TRUE,data = .)
 aq_ttest
 #p-value is more than 0.05, so we have to retain the null hypothesis
-#The lobster size of 2002 and 2018 do not vary significantly
+#The lobster size in 2012 is no less than the size in 2018
 
 #Effect size
 aq_eff <- aq %>% 
@@ -304,7 +310,10 @@ aq_eff <- aq %>%
 aq_eff
 #The effect size is small..
 
-# 4) Mohawk Reef
+# 4)non-MPA: Mohawk Reef
+#F-test for equal variance
+#H0: Variance are equal (ratio of variances = 1)
+#HA: Variance are not equal(raitio is not 1)
 mr <- lob_a %>% 
   filter(SITE == "MOHK")
 mr_ftest <- mr %>% 
@@ -314,14 +323,14 @@ mr_ftest
 #p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
 
 #two-sample t-test
-#Ho: The lobster size of 2002 and 2018 do not vary significantly.
-#HA: The lobster size of 2002 and 2018 vary significantly.
+#Ho: The lobster size in 2012 is no less than the size in 2018
+#HA: The lobster size in 2012 is less than the size in 2018.
 mr_ttest <- mr %>% 
   filter (YEAR == 2012 | YEAR == 2017) %>% 
-  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+  t.test(SIZE ~ YEAR, alternative = "less", var.equal = TRUE,data = .)
 mr_ttest
-#p-value is less than 0.05, so we have to reject the null hypothesis
-#The lobster size of 2002 and 2018 vary significantly
+#p-value is more than 0.05, so we have to retain the null hypothesis
+#The lobster size in 2012 is no less than the size in 2018
 
 #Effect size
 mr_eff <- mr %>% 
@@ -330,7 +339,10 @@ mr_eff <- mr %>%
 mr_eff
 #The effect size is medium and the absolute difference of 2012 and 2017 is 5.25
 
-#5)Carpinteria
+#5)non-MPA: Carpinteria
+#F-test for equal variance
+#H0: Variance are equal (ratio of variances = 1)
+#HA: Variance are not equal(raitio is not 1)
 ca <- lob_a %>% 
   filter(SITE == "CARP")
 ca_ftest <- ca %>% 
@@ -340,14 +352,14 @@ ca_ftest
 #p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
 
 #two-sample t-test
-#Ho: The lobster size of 2002 and 2018 do not vary significantly.
-#HA: The lobster size of 2002 and 2018 vary significantly.
+#Ho: The lobster size in 2012 is no less than the size in 2018
+#HA: The lobster size in 2012 is less than the size in 2018.
 ca_ttest <- ca %>% 
   filter (YEAR == 2012 | YEAR == 2017) %>% 
-  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+  t.test(SIZE ~ YEAR, alternative = "less", var.equal = TRUE,data = .)
 ca_ttest
 #p-value is more than 0.05, so we have to retain the null hypothesis
-#The lobster size of 2002 and 2018 do not vary significantly
+#The lobster size in 2012 is no less than the size in 2018
 
 #Effect size
 ca_eff <- ca %>% 
@@ -355,9 +367,6 @@ ca_eff <- ca %>%
   cohen.d(SIZE ~ YEAR, data=.)
 ca_eff
 #The effect size is small..
-
-
-#Based on the two-sample t-test in five sites, excpet the Mohawk Reef, there is no significant difference in lobster size in year 2012 and 2017....
 ```
 
 ### 4. Proportions of “legal” lobsters at the 5 sites in 2017
