@@ -103,6 +103,7 @@ trend_plot
 #Visualization for lobster size at five sites, we need to decide which plot is better
 #The second one!
 
+
 lob_a_2017 <- lob_a %>%
   filter(YEAR == 2017)
 
@@ -214,6 +215,7 @@ eff_NAPL_MOHK <- lob_a_2017 %>%
 
 eff_NAPL_MOHK
 #All three effsize are small
+#All three effect sizes are small
 
 ```
 
@@ -222,6 +224,143 @@ eff_NAPL_MOHK
 
 
 
+#1) MPA: Isla Vista
+iv <- lob_a %>% 
+  filter(SITE == "IVEE")
+
+#F-test for equal variance
+#H0: Variance are equal (ratio of variances = 1)
+#HA: Variance are not equal(raitio is not 1)
+
+iv_ftest <- iv %>% 
+  filter(YEAR == 2012 | YEAR == 2017) %>% 
+  var.test(SIZE ~ YEAR, data = .)
+iv_ftest
+#p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
+
+#two-sample t-test
+#Ho: The lobster size of 2002 and 2018 do not vary significantly.
+#HA: The lobster size of 2002 and 2018 vary significantly.
+iv_ttest <- iv %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+iv_ttest
+#p-value is more than 0.05, so we have to retain the null hypothesis
+#The lobster size of 2002 and 2018 do not vary significantly
+
+#Effect size
+iv_eff <- iv %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+iv_eff
+#The effect size is small..
+
+#2) MPA: Naples Reef
+nr <- lob_a %>% 
+  filter(SITE == "NAPL")
+nr_ftest <- nr %>% 
+  filter(YEAR == "2012"| YEAR == "2017") %>% 
+  var.test(SIZE ~ YEAR, data = .)
+nr_ftest
+#p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
+
+#two-sample t-test
+#Ho: The lobster size of 2002 and 2018 do not vary significantly.
+#HA: The lobster size of 2002 and 2018 vary significantly.
+nr_ttest <- nr %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+nr_ttest
+#p-value is more than 0.05, so we have to retain the null hypothesis
+#The lobster size of 2002 and 2018 do not vary significantly
+
+#Effect size
+nr_eff <- nr %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+nr_eff
+#The effect size is small..
+
+#3) Arroyo Quemado
+aq <- lob_a %>% 
+  filter(SITE == "AQUE")
+aq_ftest <- aq %>% 
+  filter(YEAR == 2012| YEAR == 2017) %>% 
+  var.test(SIZE ~ YEAR, data = .)
+aq_ftest
+#p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
+
+#two-sample t-test
+#Ho: The lobster size of 2002 and 2018 do not vary significantly.
+#HA: The lobster size of 2002 and 2018 vary significantly.
+aq_ttest <- aq %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+aq_ttest
+#p-value is more than 0.05, so we have to retain the null hypothesis
+#The lobster size of 2002 and 2018 do not vary significantly
+
+#Effect size
+aq_eff <- aq %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+aq_eff
+#The effect size is small..
+
+# 4) Mohawk Reef
+mr <- lob_a %>% 
+  filter(SITE == "MOHK")
+mr_ftest <- mr %>% 
+  filter(YEAR == 2012| YEAR == 2017) %>% 
+  var.test(SIZE ~ YEAR, data = .)
+mr_ftest
+#p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
+
+#two-sample t-test
+#Ho: The lobster size of 2002 and 2018 do not vary significantly.
+#HA: The lobster size of 2002 and 2018 vary significantly.
+mr_ttest <- mr %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+mr_ttest
+#p-value is less than 0.05, so we have to reject the null hypothesis
+#The lobster size of 2002 and 2018 vary significantly
+
+#Effect size
+mr_eff <- mr %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+mr_eff
+#The effect size is medium and the absolute difference of 2012 and 2017 is 5.25
+
+#5)Carpinteria
+ca <- lob_a %>% 
+  filter(SITE == "CARP")
+ca_ftest <- ca %>% 
+  filter(YEAR == 2012| YEAR == 2017) %>% 
+  var.test(SIZE ~ YEAR, data = .)
+ca_ftest
+#p-value is more than 0.05, so we have to retain the null hypothesis, which means the equal vairance.
+
+#two-sample t-test
+#Ho: The lobster size of 2002 and 2018 do not vary significantly.
+#HA: The lobster size of 2002 and 2018 vary significantly.
+ca_ttest <- ca %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  t.test(SIZE ~ YEAR, var.equal = TRUE,data = .)
+ca_ttest
+#p-value is more than 0.05, so we have to retain the null hypothesis
+#The lobster size of 2002 and 2018 do not vary significantly
+
+#Effect size
+ca_eff <- ca %>% 
+  filter (YEAR == 2012 | YEAR == 2017) %>% 
+  cohen.d(SIZE ~ YEAR, data=.)
+ca_eff
+#The effect size is small..
+
+
+#Based on the two-sample t-test in five sites, excpet the Mohawk Reef, there is no significant difference in lobster size in year 2012 and 2017....
 ```
 
 ### 4. Proportions of “legal” lobsters at the 5 sites in 2017
