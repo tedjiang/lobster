@@ -372,6 +372,26 @@ ca_eff
 #The effect size is small..
 ```
 
+```{r}
+
+size_change <- lob_a %>%
+  filter(YEAR ==  2012 | YEAR == 2017) %>% 
+  group_by(SITE, YEAR) %>% 
+  summarize(
+    lob_mean = round(mean(SIZE), 2),
+    lob_sd = round(sd(SIZE), 2)
+  ) %>% 
+  mutate (year = as.character(YEAR)) %>% 
+  ggplot(aes(x = SITE, y = lob_mean)) +
+  geom_col(aes(fill = year), position = "dodge")+
+  coord_flip()+
+  theme_pubr()
+
+size_change
+
+```
+
+
 ### 4. Proportions of “legal” lobsters at the 5 sites in 2017
 
 ```{r, include = FALSE}
